@@ -1,0 +1,266 @@
+
+
+
+
+
+
+<div class="container containerSearch " >
+  <div class="row trip">
+    <div class="col-2 ">
+
+      <mat-radio-button (change)='itIsRoundtrip($event.value)' class="inputTrip" checked [value]="true">Roundtrip</mat-radio-button>
+
+    </div> 
+
+    <div class="col-2">  
+
+      <mat-radio-button (change)='itIsRoundtrip($event.value)' class="example-margin" [value]="false">One way</mat-radio-button>
+
+    </div>
+
+    <div class="col-2">
+
+      <mat-checkbox (change)="NonStopFlights($event.checked)"formControlName="pepperoni">Direct flights only</mat-checkbox>
+
+
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-5">
+
+      <label for="">From</label>
+      <input class="form-control" (keyup)="findAirPortNameFrom($any($event.target).value)" type="text" value={{inputFrom}} placeholder="Country, city or airport">
+      <ul>
+        <li (click)="setFromValue(item)" *ngFor="let item of airPortsFromList">
+          {{item.country}}, {{item.city}}, {{item.code}}, {{item.name}}
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="col-2 center">
+
+      <span class='iconPlane'><fa-icon [icon]="faPlane"></fa-icon></span>
+
+    </div>
+    <div class="col-5">
+
+      <label for="">To</label>
+      <input class="form-control" (keyup)="findAirPortNameTo($any($event.target).value)" value={{inputTo}} type="text" placeholder="Country, city or airport">
+        <ul>
+          <li (click)="setToValue(item)" *ngFor="let item of airPortsToList">
+            {{item.country}}, {{item.city}}, {{item.code}}, {{item.name}}
+          </li>
+        </ul>
+
+    </div>
+
+  </div>
+
+  <div class="row rowMargin">
+
+    <div class="col-4">
+      
+      <div class="date">
+      
+      <mat-form-field *ngIf='Roundtrip == false' appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input (dateChange)='convertStartDate(($event.target).value)' matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      
+      <mat-form-field  *ngIf='Roundtrip == true'  appearance="outline">
+        <mat-label>Select date range</mat-label>
+        <mat-date-range-input [rangePicker]='picker' [formGroup]="range">
+          <input (dateChange)='convertStartDate(range.value.start)' matStartDate placeholder='start date' formControlName='start'>
+          <input (dateChange)='convertEndDate(range.value.end)' matEndDate placeholder='end date' formControlName='end'>
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]='picker'></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      </div>
+
+    </div>
+
+    <div class="col-4">
+
+      <input (change)='passengerNum($any($event.target).value)'  type="number"  max="10" min="1" placeholder="Passengeres" aria-label="First name" class="form-control pass">
+    
+  </div>
+
+  <div class="col-4">
+
+    <button class="btn btn-outline" (click)="validation()">find my flight</button>
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+<div *ngIf="noResult === true || noFilterResult === true">
+  <h1>Sorry No flights were found for your search. Please try again</h1>
+</div>
+
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "ball-climbing-dot" [fullScreen] = "true"><p style="color: white" > Looking for the best flights for you </p></ngx-spinner>
+
+
+<div *ngIf='flightResult' >
+
+  <div class="container filter">
+    <div class="row">
+      <div class="col-4">
+        <label for="">number of connctions</label>
+        <input *ngIf="NonStopFlightsOnly == false" class="form-control" (change)='setnumOfConnections($any($event.target).value)' type="number" min="1">
+      </div>
+  
+      <div class="col-4">
+        <label for="">min price is {{flightResult[0].price.total}}$</label>
+        <input class="form-control" (change)='setMinPrice($any($event.target).value)'  type="number" min="flightResult[0].price.total" max="flightResult[flightResult.length - 1].price.total">
+      
+      </div>
+  
+      <div class="col-4">
+        <label for="">max price is{{flightResult[flightResult.length - 1].price.total}}$</label>
+        <input (change)='setMaxPrice($any($event.target).value)' class="form-control"  type="number" min="flightResult[0].price.total" max="flightResult[flightResult.length - 1].price.total">
+      </div>
+  
+    </div>
+    <button class="btn btn-outline" (click)='filterFlight()'>filter </button>
+  </div>
+
+
+<div class="container flightResult"   *ngFor="let item of flightResult index as i">
+  
+
+
+  <div class="container outbound" > 
+
+  <div class="row">
+
+    <div class="col-3">
+
+      <h3>Outbound</h3>
+
+    </div>
+
+    <div class="col-3">
+
+      <p>stops: {{flightResult[i].itineraries[0].segments.length -1}}</p>
+
+    </div>
+
+  </div>
+
+  <div class="row" *ngFor="let item of flightResult[i].itineraries[0].segments index as j">
+
+    <div class="col-5">
+
+      <div>
+        <span class="iconPlaneFlight">
+
+          <fa-icon [icon]='faPlaneDeparture' ></fa-icon><br>
+        </span>
+        <span class="flightTime"> {{(flightResult[i].itineraries[0].segments[j].departure.at).substring(11,16)}}</span>
+      </div>
+
+      <div>
+        <span class="airPort">{{flightResult[i].itineraries[0].segments[j].departure.iataCode}}</span>
+      </div>
+
+    </div>
+
+    <div class="col-2">
+      <span class="arrow"><fa-icon  [icon]='faLongArrowAltRight' ></fa-icon></span>
+    </div>
+
+    <div class="col-5">
+      <div>
+        <span class="iconPlaneFlight">
+
+          <fa-icon  [icon]='faPlaneArrival' ></fa-icon><br>
+        </span>
+        <span  class="flightTime"> {{(flightResult[i].itineraries[0].segments[j].arrival.at).substring(11,16)}}</span>
+      </div>
+
+      <div>
+        <span class="airPort">{{flightResult[i].itineraries[0].segments[j].arrival.iataCode}}</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container price">
+  <h5 class='totalPrice'>{{flightResult[i].price.total}}$</h5>
+</div>
+
+<div  *ngIf="Roundtrip == true" class="container Return" >
+
+  <div class="row">
+
+    <div class="col-3">
+
+      <h3>Return</h3>
+
+    </div>
+
+    <div class="col-3">
+
+      <p>stops: {{flightResult[i].itineraries[1].segments.length -1}}</p>
+
+    </div>
+
+  </div>
+
+  <div class="row"  *ngFor="let item of flightResult[i].itineraries[1].segments index as f">
+
+    <div class="col-5">
+
+      <div>
+        <span class="iconPlaneFlight">
+
+          <fa-icon  [icon]='faPlaneDeparture' ></fa-icon><br>
+        </span>
+        <span  class="flightTime"> {{(flightResult[i].itineraries[1].segments[f].departure.at).substring(11,16)}}</span>
+      </div>
+
+      <div>
+        <span class="airPort">{{flightResult[i].itineraries[1].segments[f].departure.iataCode}}</span>
+      </div>
+
+    </div>
+
+    <div class="col-2">
+      <span class="arrow"><fa-icon  [icon]='faLongArrowAltRight' ></fa-icon></span>
+        </div>
+
+    <div class="col-5">
+      <div>
+        <span class="iconPlaneFlight">
+
+          <fa-icon  [icon]='faPlaneArrival' ></fa-icon><br>
+        </span>
+        <span  class="flightTime"> {{(flightResult[i].itineraries[1].segments[f].arrival.at).substring(11,16)}}</span>
+      </div>
+
+      <div>
+        <span class="airPort">{{flightResult[i].itineraries[1].segments[f].arrival.iataCode}}</span >
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+</div>
+
+

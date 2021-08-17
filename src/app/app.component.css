@@ -1,0 +1,199 @@
+@import "~ngx-toastr/toastr";
+.Return {
+  background-color: #ffd3b4;
+  margin: 0 auto;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.Return:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.01);
+}
+
+.outbound {
+  background-color: #d5ecc2;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width: 365px;
+  border-radius: 10px;
+  position: relative;
+  left: -102px;
+  transition: all 0.2s;
+}
+
+.outbound:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.01);
+}
+
+.flightResult {
+  background-color: #fff;
+  opacity: 90%;
+  margin: 0 auto;
+  padding-top: 0.1px;
+  width: 600px;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+.containerSearch {
+  border-radius: 10px;
+  margin: 0 auto;
+  width: 750px;
+  height: 200px;
+  background-color: #d9d6cd;
+  opacity: 85%;
+  padding-top: 5px;
+  position: relative;
+  top: 60px;
+  box-shadow: -1px -1px 184px 1px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -1px -1px 184px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px -1px 184px 1px rgba(0, 0, 0, 0.75);
+  transition: all 0.2s;
+}
+
+.containerSearch:hover {
+  transform: scale(1.01);
+}
+
+.col-5,
+.col-3 {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trip {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.inputTrip {
+  margin-right: -50px;
+  margin-left: 15px;
+}
+
+ul {
+  position: absolute;
+  background-color: #fff;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding: 0;
+  z-index: 9;
+}
+li {
+  border-top: 1px solid black;
+  /* border-bottom: 1px solid black; */
+  list-style: none;
+  padding: 5px;
+  font-size: 15px;
+  width: 350px;
+  cursor: pointer;
+  opacity: 100;
+}
+li:hover {
+  background-color: blue;
+  color: #fff;
+}
+.iconPlane {
+  font-size: 40px;
+  position: relative;
+  top: 18px;
+  color: #fff;
+}
+
+.iconPlaneFlight {
+  position: relative;
+  top: 18px;
+}
+.center {
+  text-align: center;
+}
+
+.rowMargin {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.pass {
+  width: 140px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 2px;
+  height: 52px;
+}
+
+button {
+  color: #fff;
+  border: 1px solid #fff;
+  text-transform: uppercase;
+  height: 52px;
+  width: 150px;
+  margin-top: 2px;
+}
+
+.airPort {
+  font-size: 15px;
+}
+/* .flightResult {
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 15px;
+} */
+.flightTime {
+  font-size: 15px;
+  position: relative;
+  left: 25%;
+}
+
+.arrow {
+  color: #fff;
+  font-size: 70px;
+  display: none;
+}
+
+h3 {
+  position: relative;
+  left: -65%;
+  top: 5px;
+  font-size: 25px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 75px;
+}
+
+.filter {
+  background-color: #2ec7c0;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-radius: 10px;
+  width: 650px;
+}
+.price {
+  top: -118px;
+  background-color: #ffaaa7;
+  position: relative;
+  left: 33%;
+  width: 144px;
+  height: 100px;
+  margin-bottom: -90px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  vertical-align: middle;
+}
+.price:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.01);
+}
+
+.totalPrice {
+  text-align: center;
+  position: relative;
+  top: 33%;
+  font-size: 23px;
+}
